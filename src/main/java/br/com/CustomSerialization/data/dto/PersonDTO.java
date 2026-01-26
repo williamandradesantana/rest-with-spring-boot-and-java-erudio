@@ -5,7 +5,9 @@ package br.com.CustomSerialization.data.dto;
 //import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import br.com.CustomSerialization.serializer.GenderSerializer;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
@@ -13,16 +15,27 @@ import java.util.Date;
 import java.util.Objects;
 
 //@JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
+@JsonFilter("PersonFilter")
 public class PersonDTO implements Serializable {
     private static final long seriaVersionUID = 1L;
 
     private Long id;
-//    @JsonProperty("first_name")
+
+    //    @JsonProperty("first_name")
     private String firstName;
-//    @JsonProperty("last_name")
+
+    //    @JsonProperty("last_name")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String lastName;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String phoneNumber;
+
+    private String sensitiveData;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDay;
+
     private String address;
 //    @JsonIgnore
     @JsonSerialize(using = GenderSerializer.class)
@@ -86,11 +99,27 @@ public class PersonDTO implements Serializable {
         this.birthDay = birthDay;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getSensitiveData() {
+        return sensitiveData;
+    }
+
+    public void setSensitiveData(String sensitiveData) {
+        this.sensitiveData = sensitiveData;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
 
-        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(birthDay, personDTO.birthDay) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender);
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(phoneNumber, personDTO.phoneNumber) && Objects.equals(sensitiveData, personDTO.sensitiveData) && Objects.equals(birthDay, personDTO.birthDay) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender);
     }
 
     @Override
@@ -98,6 +127,8 @@ public class PersonDTO implements Serializable {
         int result = Objects.hashCode(id);
         result = 31 * result + Objects.hashCode(firstName);
         result = 31 * result + Objects.hashCode(lastName);
+        result = 31 * result + Objects.hashCode(phoneNumber);
+        result = 31 * result + Objects.hashCode(sensitiveData);
         result = 31 * result + Objects.hashCode(birthDay);
         result = 31 * result + Objects.hashCode(address);
         result = 31 * result + Objects.hashCode(gender);
