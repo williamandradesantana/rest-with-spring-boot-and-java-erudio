@@ -37,14 +37,18 @@ public class PersonServices {
 
     public List<PersonDTO> findByAll() {
         logger.info("Find All People");
-        return parseListObjects(repository.findAll(), PersonDTO.class);
+        var persons = parseListObjects(repository.findAll(), PersonDTO.class);
+        persons.forEach(PersonServices::addHateoasLinks);
+        return persons;
     }
 
     public PersonDTO create(PersonDTO person) {
         logger.info("Creating one person!");
         var entity = parseObject(person, Person.class);
 
-        return parseObject(repository.save(entity), PersonDTO.class);
+        var dto = parseObject(repository.save(entity), PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public PersonDTO update(PersonDTO person) {
@@ -58,7 +62,9 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return parseObject(repository.save(entity), PersonDTO.class);
+        var dto = parseObject(repository.save(entity), PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public void delete(Long id) {
