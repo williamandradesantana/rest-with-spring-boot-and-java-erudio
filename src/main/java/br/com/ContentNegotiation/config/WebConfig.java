@@ -14,9 +14,19 @@ public class WebConfig implements WebMvcConfigurer {
         // Via EXTENSION. http://localhost:8080/api/person/v1.xml, http://localhost:8080/api/person/v1.JSON Deprecated on Spring 2.6
 
         // Via query param http://localhost:8080/api/person/v1?mediaType=xml
-        configurer.favorParameter(true)
+        /*
+         configurer.favorParameter(true)
                 .parameterName("mediaType")
                 .ignoreAcceptHeader(true)
+                .useRegisteredExtensionsOnly(false)
+                .defaultContentType(MediaType.APPLICATION_JSON)
+                .mediaType("json", MediaType.APPLICATION_JSON)
+                .mediaType("xml", MediaType.APPLICATION_XML);
+        */
+
+        // Via header param http://localhost:8080/api/person/v1
+        configurer.favorParameter(false)
+                .ignoreAcceptHeader(false)
                 .useRegisteredExtensionsOnly(false)
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .mediaType("json", MediaType.APPLICATION_JSON)
