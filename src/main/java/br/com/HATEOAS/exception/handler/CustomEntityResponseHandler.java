@@ -1,6 +1,7 @@
 package br.com.HATEOAS.exception.handler;
 
 import br.com.HATEOAS.exception.ExceptionResponse;
+import br.com.HATEOAS.exception.RequiredObjectIsNullException;
 import br.com.HATEOAS.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,14 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(), exception.getMessage(), request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

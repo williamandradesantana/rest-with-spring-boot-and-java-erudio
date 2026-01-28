@@ -2,6 +2,7 @@ package br.com.HATEOAS.services;
 
 import br.com.HATEOAS.controllers.PersonController;
 import br.com.HATEOAS.data.dto.PersonDTO;
+import br.com.HATEOAS.exception.RequiredObjectIsNullException;
 import br.com.HATEOAS.exception.ResourceNotFoundException;
 import br.com.HATEOAS.model.Person;
 import br.com.HATEOAS.repository.PersonRepository;
@@ -41,6 +42,9 @@ public class PersonServices {
     }
 
     public PersonDTO create(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Creating one person!");
         var entity = parseObject(person, Person.class);
 
@@ -50,6 +54,7 @@ public class PersonServices {
     }
 
     public PersonDTO update(PersonDTO person) {
+        if (person == null) throw new RequiredObjectIsNullException();
         logger.info("Update one person!");
 
         var entity = repository.findById(person.getId())

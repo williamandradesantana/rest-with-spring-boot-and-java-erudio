@@ -1,6 +1,7 @@
 package br.com.HATEOAS.services;
 
 import br.com.HATEOAS.data.dto.PersonDTO;
+import br.com.HATEOAS.exception.RequiredObjectIsNullException;
 import br.com.HATEOAS.model.Person;
 import br.com.HATEOAS.repository.PersonRepository;
 import br.com.WorkingWithDTOPattern.unitetests.mapper.mocks.MockPerson;
@@ -15,8 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -140,6 +140,17 @@ class PersonServicesTest {
     }
 
     @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+           personServices.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void update() {
         Person person = input.mockEntity(1);
         Person persisted = person;
@@ -191,6 +202,18 @@ class PersonServicesTest {
         assertEquals("Female", result.getGender());
     }
 
+
+    @Test
+    void testUpdateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            personServices.update(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
     @Test
     void delete() {
         Person person = input.mockEntity(1);
@@ -201,6 +224,6 @@ class PersonServicesTest {
 
         verify(repository, times(1)).findById(anyLong());
         verify(repository, times(1)).delete(any(Person.class));
-        verifyNoInteractions(repository);
+        verifyNoMoreInteractions(repository);
     }
 }
