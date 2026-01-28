@@ -3,8 +3,8 @@ package br.com.WorkingWithDTOPattern.unitetests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.WorkingWithDTOPattern.data.dto.PersonDTO;
-import br.com.WorkingWithDTOPattern.model.Person;
+import br.com.HATEOAS.data.dto.PersonDTO;
+import br.com.HATEOAS.model.Person;
 
 public class MockPerson {
 
@@ -12,11 +12,11 @@ public class MockPerson {
     public Person mockEntity() {
         return mockEntity(0);
     }
-    
+
     public PersonDTO mockDTO() {
         return mockDTO(0);
     }
-    
+
     public List<Person> mockEntityList() {
         List<Person> persons = new ArrayList<Person>();
         for (int i = 0; i < 14; i++) {
@@ -32,7 +32,7 @@ public class MockPerson {
         }
         return persons;
     }
-    
+
     public Person mockEntity(Integer number) {
         Person person = new Person();
         person.setAddress("Address Test" + number);
