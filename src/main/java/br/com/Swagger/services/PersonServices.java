@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static br.com.HATEOAS.mapper.ObjectMapper.parseListObjects;
-import static br.com.HATEOAS.mapper.ObjectMapper.parseObject;
+import static br.com.Swagger.mapper.ObjectMapper.parseListObjects;
+import static br.com.Swagger.mapper.ObjectMapper.parseObject;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
