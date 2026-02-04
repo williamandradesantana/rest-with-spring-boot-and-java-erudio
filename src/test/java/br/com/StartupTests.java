@@ -1,13 +1,11 @@
-package br.com.WorkingWithDTOPattern;
+package br.com;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestWithSpringBootAndJavaErudioApplicationTests {
-
+public class StartupTests {
     @Test
     void contextLoads() {
     }
-
 }
