@@ -4,7 +4,7 @@ import br.com.HATEOAS.data.dto.PersonDTO;
 import br.com.HATEOAS.exception.RequiredObjectIsNullException;
 import br.com.HATEOAS.model.Person;
 import br.com.HATEOAS.repository.PersonRepository;
-import br.com.WorkingWithDTOPattern.unitetests.mapper.mocks.MockPerson;
+import br.com.WorkingWithDTOPattern.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

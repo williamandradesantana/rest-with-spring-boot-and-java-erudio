@@ -1,4 +1,4 @@
-package br.com.WorkingWithDTOPattern.unitetests.mapper;
+package br.com.WorkingWithDTOPattern.unittests.mapper;
 import static br.com.WorkingWithDTOPattern.mapper.ObjectMapper.parseListObjects;
 import static br.com.WorkingWithDTOPattern.mapper.ObjectMapper.parseObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import br.com.WorkingWithDTOPattern.data.dto.PersonDTO;
-import br.com.WorkingWithDTOPattern.unitetests.mapper.mocks.MockPerson;
+import br.com.WorkingWithDTOPattern.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

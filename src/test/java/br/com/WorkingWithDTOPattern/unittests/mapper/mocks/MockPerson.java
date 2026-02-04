@@ -1,4 +1,4 @@
-package br.com.WorkingWithDTOPattern.unitetests.mapper.mocks;
+package br.com.WorkingWithDTOPattern.unittests.mapper.mocks;
 
 import java.util.ArrayList;
 import java.util.List;
