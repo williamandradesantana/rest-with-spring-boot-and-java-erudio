@@ -20,7 +20,7 @@ public class PersonController implements PersonControllerDocs {
     @Autowired
     private PersonServices service;
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    //@CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}", produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
@@ -41,7 +41,7 @@ public class PersonController implements PersonControllerDocs {
         return service.findByAll();
     }
 
-    @CrossOrigin(origins = {"http://localhost:8080", "https://williamsantana-portfolio.vercel.app"})
+    //@CrossOrigin(origins = {"http://localhost:8080", "https://williamsantana-portfolio.vercel.app"})
     @PostMapping(
         produces = {
             MediaType.APPLICATION_JSON_VALUE,
