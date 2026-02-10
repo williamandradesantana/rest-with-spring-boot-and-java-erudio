@@ -25,8 +25,8 @@ class PersonControllerTest {
     private static ObjectMapper objectMapper;
     private static PersonDTO person;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
@@ -34,11 +34,67 @@ class PersonControllerTest {
     }
 
     @Test
-    void findById() {
+    @Order(3)
+    void findById() throws JsonProcessingException {
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
+
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
+                .get("{id}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        PersonDTO foundPerson = objectMapper.readValue(content, PersonDTO.class);
+        person = foundPerson;
+
+        assertNotNull(foundPerson.getId());
+        assertNotNull(foundPerson.getFirstName());
+        assertNotNull(foundPerson.getLastName());
+        assertNotNull(foundPerson.getAddress());
+        assertNotNull(foundPerson.getGender());
+
+        assertEquals("Richard", foundPerson.getFirstName());
+        assertEquals("Stallman", foundPerson.getLastName());
+        assertEquals("New York City - New York - USA", foundPerson.getAddress());
+        assertEquals("Male", foundPerson.getGender());
+
+        assertTrue(foundPerson.getId() > 0);
     }
 
     @Test
-    void findAll() {
+    @Order(4)
+    void findByIdWithWrongOrigin() throws JsonProcessingException {
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_UNKNOWN)
+                .setBasePath("/api/person/v1")
+                .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
+
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
+                .get("{id}")
+                .then()
+                .statusCode(403)
+                .extract()
+                .body()
+                .asString();
+
+        assertEquals("Invalid CORS request", content);
     }
 
     @Test
@@ -83,11 +139,30 @@ class PersonControllerTest {
     }
 
     @Test
-    void update() {
-    }
+    @Order(2)
+    void createWithWrongOrigin() throws JsonProcessingException {
+        mockPerson();
 
-    @Test
-    void delete() {
+        specification = new RequestSpecBuilder()
+            .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_UNKNOWN)
+            .setBasePath("/api/person/v1")
+            .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+            .build();
+
+        var content = given(specification)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(person)
+            .when()
+                .post()
+            .then()
+                .statusCode(403)
+            .extract()
+                .body()
+            .asString();
+
+        assertEquals("Invalid CORS request", content);
     }
 
     private void mockPerson() {
