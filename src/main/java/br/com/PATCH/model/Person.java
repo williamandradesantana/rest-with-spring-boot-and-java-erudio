@@ -26,14 +26,18 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 6)
     private String gender;
 
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled;
+
     public Person(){}
 
-    public Person(Long id, String firstName, String lastName, String address, String gender) {
+    public Person(Long id, String firstName, String lastName, String gender, String address, Boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
         this.gender = gender;
+        this.address = address;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -76,11 +80,20 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    @Override
-    public final boolean equals(Object o) {
-        if (!(o instanceof Person person)) return false;
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(enabled, person.enabled);
     }
 
     @Override
@@ -90,6 +103,7 @@ public class Person implements Serializable {
         result = 31 * result + Objects.hashCode(lastName);
         result = 31 * result + Objects.hashCode(address);
         result = 31 * result + Objects.hashCode(gender);
+        result = 31 * result + Objects.hashCode(enabled);
         return result;
     }
 }

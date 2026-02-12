@@ -13,14 +13,16 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     private String lastName;
     private String address;
     private String gender;
+    private Boolean enabled;
 
     public PersonDTO(){}
 
-    public PersonDTO(Long id, String firstName, String lastName, String address, String gender) {
+    public PersonDTO(Long id, String firstName, String lastName, String address, Boolean enabled, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.enabled = enabled;
         this.gender = gender;
     }
 
@@ -64,20 +66,31 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public final boolean equals(Object o) {
-        if (!(o instanceof PersonDTO person)) return false;
+        if (!(o instanceof PersonDTO personDTO)) return false;
+        if (!super.equals(o)) return false;
 
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender) && Objects.equals(enabled, personDTO.enabled);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(id);
+        int result = super.hashCode();
+        result = 31 * result + Objects.hashCode(id);
         result = 31 * result + Objects.hashCode(firstName);
         result = 31 * result + Objects.hashCode(lastName);
         result = 31 * result + Objects.hashCode(address);
         result = 31 * result + Objects.hashCode(gender);
+        result = 31 * result + Objects.hashCode(enabled);
         return result;
     }
 }
