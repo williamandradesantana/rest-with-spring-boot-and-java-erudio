@@ -38,13 +38,14 @@ class PersonControllerJsonTest {
     void findByIdTest() throws JsonProcessingException {
         var content = given(specification)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id", person.getId())
+                    .pathParam("id", person.getId())
                 .when()
-                .get("{id}")
+                    .get("{id}")
                 .then()
-                .statusCode(200)
+                    .statusCode(200)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .extract()
-                .body()
+                    .body()
                 .asString();
 
         PersonDTO foundPerson = objectMapper.readValue(content, PersonDTO.class);
@@ -80,6 +81,7 @@ class PersonControllerJsonTest {
                 .put()
             .then()
                 .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
             .extract()
                 .body()
             .asString();
@@ -109,6 +111,7 @@ class PersonControllerJsonTest {
                 .post()
             .then()
                 .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
             .extract()
                 .body()
             .asString();
@@ -124,6 +127,45 @@ class PersonControllerJsonTest {
 
         assertTrue(createdPerson.getId() > 0);
         assertTrue(createdPerson.getEnabled());
+    }
+
+    @Test
+    @Order(4)
+    void disableTest() throws JsonProcessingException {
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .pathParam("id", person.getId())
+                .when()
+                    .patch("{id}")
+                .then()
+                    .statusCode(200)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        PersonDTO foundPerson = objectMapper.readValue(content, PersonDTO.class);
+        person = foundPerson;
+
+        assertNotNull(foundPerson.getId());
+        assertEquals("Linus", foundPerson.getFirstName());
+        assertEquals("Benedict Torvalds", foundPerson.getLastName());
+        assertEquals("Helsinki - Finland", foundPerson.getAddress());
+        assertEquals("Male", foundPerson.getGender());
+
+        assertTrue(foundPerson.getId() > 0);
+        assertFalse(foundPerson.getEnabled());
+    }
+
+    @Test
+    @Order(5)
+    void deleteTest() throws JsonProcessingException {
+        given(specification)
+            .pathParam("id", person.getId())
+                .when()
+            .delete("{id}")
+                .then()
+            .statusCode(204);
     }
 
     private void mockPerson() {
