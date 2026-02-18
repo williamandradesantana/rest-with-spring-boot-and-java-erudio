@@ -3,6 +3,7 @@ package br.com.integrationtests.controllers.withjson;
 import br.com.config.TestConfigs;
 import br.com.integrationtests.dto.person.PersonDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;
@@ -13,6 +14,8 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -166,6 +169,45 @@ class PersonControllerJsonTest {
             .delete("{id}")
                 .then()
             .statusCode(204);
+    }
+
+    @Test
+    @Order(6)
+    void findAllTest() throws JsonProcessingException {
+        var content = given(specification)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+
+        PersonDTO personOne = people.getFirst();
+
+        assertNotNull(personOne.getId());
+        assertEquals("Jhon", personOne.getFirstName());
+        assertEquals("Lennon", personOne.getLastName());
+        assertEquals("Liverpool - United Kingdom", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+
+        assertTrue(personOne.getId() > 0);
+        assertTrue(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(3);
+
+        assertNotNull(personFour.getId());
+        assertEquals("Leonardo", personFour.getFirstName());
+        assertEquals("Da Vinci", personFour.getLastName());
+        assertEquals("Anchiano - Italy - 1500", personFour.getAddress());
+        assertEquals("Male", personFour.getGender());
+
+        assertTrue(personFour.getId() > 0);
+        assertTrue(personFour.getEnabled());
     }
 
     private void mockPerson() {
