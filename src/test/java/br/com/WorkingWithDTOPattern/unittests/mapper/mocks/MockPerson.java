@@ -3,8 +3,8 @@ package br.com.WorkingWithDTOPattern.unittests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.HATEOAS.data.dto.PersonDTO;
-import br.com.HATEOAS.model.Person;
+import br.com.QueryParamsEBuscaPaginada.data.dto.PersonDTO;
+import br.com.QueryParamsEBuscaPaginada.model.Person;
 
 public class MockPerson {
 

@@ -6,14 +6,17 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 public interface PersonControllerDocs {
+
     @Operation(
         summary = "Finds a People",
         description = "Find a specific person by your ID",
@@ -32,6 +35,7 @@ public interface PersonControllerDocs {
         }
     )
     PersonDTO findById(@PathVariable("id") Long id);
+
     @Operation(
         summary = "Find All People",
         description = "Finds All People",
@@ -54,7 +58,11 @@ public interface PersonControllerDocs {
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
         }
     )
-    List<PersonDTO> findAll();
+    ResponseEntity<Page<PersonDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size
+    );
+
     @Operation(
         summary = "Adds a new Person",
         description = "Adds a new person by passing in a Json, XML or YML representation of the person.",
@@ -71,6 +79,7 @@ public interface PersonControllerDocs {
         }
     )
     PersonDTO create(@RequestBody PersonDTO person);
+
     @Operation(
         summary = "Updates a person's information",
         description = "Updates a person's information by passing in a Json, XML or YML representation of the updated person.",
