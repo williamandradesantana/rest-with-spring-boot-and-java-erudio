@@ -10,8 +10,12 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import static br.com.Swagger.mapper.ObjectMapper.parseObject;
@@ -24,6 +28,8 @@ public class PersonServices {
 
     @Autowired
     private PersonRepository repository;
+    @Autowired
+    private PagedResourcesAssembler<PersonDTO> assembler;
 
     public PersonDTO findById(Long id) {
         logger.info("Finding one Person!");
@@ -34,7 +40,7 @@ public class PersonServices {
         return dto;
     }
 
-    public Page<PersonDTO> findAll(Pageable pageable) {
+    public PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable) {
         logger.info("Find All People");
 
         var people = repository.findAll(pageable);
@@ -43,7 +49,14 @@ public class PersonServices {
            addHateoasLinks(dto);
            return dto;
         });
-        return peopleWithLinks;
+
+        Link findAllLink = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(PersonController.class)
+                    .findAll(pageable.getPageNumber(),
+                            pageable.getPageSize(),
+                            String.valueOf(pageable.getSort())))
+                .withSelfRel();
+        return assembler.toModel(peopleWithLinks, findAllLink);
     }
 
     public PersonDTO create(PersonDTO person) {
