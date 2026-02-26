@@ -5,11 +5,14 @@ import br.com.QueryParamsEBuscaPaginada.data.dto.BookDTO;
 import br.com.QueryParamsEBuscaPaginada.services.BookServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/books/v1")
@@ -25,8 +28,15 @@ public class BookController implements BookControllerDocs {
             MediaType.APPLICATION_YAML_VALUE
     })
     @Override
-    public List<BookDTO> findAll() {
-        return services.findAll();
+    public ResponseEntity<PagedModel<EntityModel<BookDTO>>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ) {
+        var sortedDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+        var pageable = PageRequest.of(page, size, Sort.by(sortedDirection, "title"));
+
+        return ResponseEntity.ok(services.findAll(pageable));
     }
 
     @GetMapping(

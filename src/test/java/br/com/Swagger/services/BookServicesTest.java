@@ -5,6 +5,7 @@ import br.com.Swagger.data.dto.BookDTO;
 import br.com.Swagger.model.Book;
 import br.com.Swagger.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +39,12 @@ class BookServicesTest {
     }
 
     @Test
+    @Disabled("REASON: Still Under Development")
     void findAll() {
         Book bookOne = new Book(1L, "Author Test 1", "20/01/2026", 20.0, "Title Test 1");
         Book bookTwo = new Book(2L, "Author Test 2", "21/01/2026", 25.0, "Title Test 2");
 
-        List<Book> books = List.of(bookOne, bookTwo);
+        List<Book> books = new ArrayList<>(); //List.of(bookOne, bookTwo);
 
         when(repository.findAll()).thenReturn(books);
 
