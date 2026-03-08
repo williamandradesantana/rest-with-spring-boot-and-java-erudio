@@ -3,6 +3,7 @@ package br.com.integrationtests.controllers.withyaml;
 import br.com.config.TestConfigs;
 import br.com.integrationtests.controllers.withyaml.mapper.YAMLMapper;
 import br.com.integrationtests.dto.person.PersonDTO;
+import br.com.integrationtests.dto.wrappers.xml.PagedModelPerson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
@@ -199,9 +200,9 @@ class PersonControllerYAMLTest {
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
                 .extract()
                 .body()
-                .as(PersonDTO[].class, yamlMapper);
+                .as(PagedModelPerson.class, yamlMapper);
 
-        List<PersonDTO> people = Arrays.asList(content);
+        List<PersonDTO> people = content.getContent();
         PersonDTO personOne = people.getFirst();
 
         assertNotNull(personOne.getId());

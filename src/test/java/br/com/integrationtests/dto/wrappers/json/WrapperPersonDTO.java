@@ -1,4 +1,4 @@
-package br.com.integrationtests.dto.wrappers;
+package br.com.integrationtests.dto.wrappers.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

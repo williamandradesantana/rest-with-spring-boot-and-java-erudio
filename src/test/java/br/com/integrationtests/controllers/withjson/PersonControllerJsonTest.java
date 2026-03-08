@@ -2,9 +2,8 @@ package br.com.integrationtests.controllers.withjson;
 
 import br.com.config.TestConfigs;
 import br.com.integrationtests.dto.person.PersonDTO;
-import br.com.integrationtests.dto.wrappers.WrapperPersonDTO;
+import br.com.integrationtests.dto.wrappers.json.WrapperPersonDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;

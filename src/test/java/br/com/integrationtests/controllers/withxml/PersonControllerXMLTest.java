@@ -2,7 +2,8 @@ package br.com.integrationtests.controllers.withxml;
 
 import br.com.config.TestConfigs;
 import br.com.integrationtests.dto.person.PersonDTO;
-import br.com.integrationtests.dto.wrappers.WrapperPersonDTO;
+import br.com.integrationtests.dto.wrappers.json.WrapperPersonDTO;
+import br.com.integrationtests.dto.wrappers.xml.PagedModelPerson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -190,8 +191,8 @@ class PersonControllerXMLTest {
                 .body()
                 .asString();
 
-        WrapperPersonDTO wrapper = xmlMapper.readValue(content, WrapperPersonDTO.class);
-        List<PersonDTO> people = xmlMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+        PagedModelPerson wrapper = xmlMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
 
         PersonDTO personOne = people.getFirst();
 
