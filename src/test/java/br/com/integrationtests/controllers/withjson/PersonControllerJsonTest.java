@@ -2,6 +2,7 @@ package br.com.integrationtests.controllers.withjson;
 
 import br.com.config.TestConfigs;
 import br.com.integrationtests.dto.person.PersonDTO;
+import br.com.integrationtests.dto.wrappers.WrapperPersonDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -185,7 +186,8 @@ class PersonControllerJsonTest {
                 .body()
                 .asString();
 
-        List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+        WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
+        List<PersonDTO> people = wrapper.getEmbedded().getPeople();
 
         PersonDTO personOne = people.getFirst();
 
