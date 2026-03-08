@@ -177,6 +177,7 @@ class PersonControllerJsonTest {
     void findAllTest() throws JsonProcessingException {
         var content = given(specification)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
+                .queryParams("page", 3, "size", 12, "direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -192,24 +193,24 @@ class PersonControllerJsonTest {
         PersonDTO personOne = people.getFirst();
 
         assertNotNull(personOne.getId());
-        assertEquals("Jhon", personOne.getFirstName());
-        assertEquals("Lennon", personOne.getLastName());
-        assertEquals("Liverpool - United Kingdom", personOne.getAddress());
-        assertEquals("Male", personOne.getGender());
+        assertEquals("Vivyanne", personOne.getFirstName());
+        assertEquals("Blaasch", personOne.getLastName());
+        assertEquals("Apt 1871", personOne.getAddress());
+        assertEquals("Female", personOne.getGender());
 
         assertTrue(personOne.getId() > 0);
-        assertTrue(personOne.getEnabled());
+        assertFalse(personOne.getEnabled());
 
         PersonDTO personFour = people.get(3);
 
         assertNotNull(personFour.getId());
-        assertEquals("Leonardo", personFour.getFirstName());
-        assertEquals("Da Vinci", personFour.getLastName());
-        assertEquals("Anchiano - Italy - 1500", personFour.getAddress());
-        assertEquals("Male", personFour.getGender());
+        assertEquals("Virginie", personFour.getFirstName());
+        assertEquals("Chatto", personFour.getLastName());
+        assertEquals("8th Floor", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
 
         assertTrue(personFour.getId() > 0);
-        assertTrue(personFour.getEnabled());
+        assertFalse(personFour.getEnabled());
     }
 
     private void mockPerson() {
