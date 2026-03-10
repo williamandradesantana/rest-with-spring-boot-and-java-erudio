@@ -226,6 +226,48 @@ class PersonControllerYAMLTest {
         assertFalse(personFour.getEnabled());
     }
 
+    @Test
+    @Order(7)
+    void findByNameTest() throws JsonProcessingException {
+        //{{baseUrl}}/api/person/v1/findPeopleByName/al?page=0&size=15&direction=deSc
+
+        var content = given(specification)
+                .accept(MediaType.APPLICATION_YAML_VALUE)
+                .pathParam("firstName", "al")
+                .queryParams("page", 3, "size", 12, "direction", "desc")
+                .when()
+                .get("findByPeopleName/{firstName}")
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_YAML_VALUE)
+                .extract()
+                .body()
+                .as(PagedModelPerson.class, yamlMapper);
+
+        List<PersonDTO> people = content.getContent();
+        PersonDTO personOne = people.getFirst();
+
+        assertNotNull(personOne.getId());
+        assertEquals("Yalonda", personOne.getFirstName());
+        assertEquals("Wyeth", personOne.getLastName());
+        assertEquals("3rd Floor", personOne.getAddress());
+        assertEquals("Female", personOne.getGender());
+
+        assertTrue(personOne.getId() > 0);
+        assertFalse(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(3);
+
+        assertNotNull(personFour.getId());
+        assertEquals("Walt", personFour.getFirstName());
+        assertEquals("Smail", personFour.getLastName());
+        assertEquals("2Apt 1731", personFour.getAddress());
+        assertEquals("Male", personFour.getGender());
+
+        assertTrue(personFour.getId() > 0);
+        assertFalse(personFour.getEnabled());
+    }
+
     private void mockPerson() {
         person.setFirstName("Linus");
         person.setLastName("Torvalds");
