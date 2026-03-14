@@ -1,8 +1,6 @@
 package br.com.UploadEDownloadDeArquivos.exception.handler;
 
-import br.com.UploadEDownloadDeArquivos.exception.ExceptionResponse;
-import br.com.UploadEDownloadDeArquivos.exception.RequiredObjectIsNullException;
-import br.com.UploadEDownloadDeArquivos.exception.ResourceNotFoundException;
+import br.com.UploadEDownloadDeArquivos.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,5 +40,23 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
         );
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileNotFoundExceptions(Exception exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(), exception.getMessage(), request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileStorageExceptions(Exception exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(), exception.getMessage(), request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
