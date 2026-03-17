@@ -2,13 +2,13 @@ package br.com.ImportAndExportSpreadsheet.services;
 
 import br.com.ImportAndExportSpreadsheet.controllers.PersonController;
 import br.com.ImportAndExportSpreadsheet.data.dto.PersonDTO;
+import br.com.ImportAndExportSpreadsheet.exception.BadRequestException;
 import br.com.ImportAndExportSpreadsheet.exception.RequiredObjectIsNullException;
 import br.com.ImportAndExportSpreadsheet.exception.ResourceNotFoundException;
 import br.com.ImportAndExportSpreadsheet.file.importer.contract.FileImporter;
 import br.com.ImportAndExportSpreadsheet.file.importer.factory.FileImporterFactory;
 import br.com.ImportAndExportSpreadsheet.model.Person;
 import br.com.ImportAndExportSpreadsheet.repository.PersonRepository;
-import br.com.ImportAndExportSpreadsheet.exception.BadRequestException;
 import br.com.UploadEDownloadDeArquivos.exception.FileStorageException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -24,7 +24,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +77,7 @@ public class PersonServices {
         return dto;
     }
 
-    public List<PersonDTO> massCreation(MultipartFile file) throws Exception {
+    public List<PersonDTO> massCreation(MultipartFile file) {
         logger.info("Importing People from file!");
 
         if (file.isEmpty()) throw new BadRequestException("Please set a valid file!");
