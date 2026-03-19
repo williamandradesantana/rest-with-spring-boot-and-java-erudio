@@ -181,7 +181,8 @@ public class PersonServices {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12, "asc")).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findByName("", 1, 12, "asc")).withRel("findByName").withType("GET"));
-        dto.add(linkTo(methodOn(PersonController.class).exportPage(1, 12, "asc", MediaTypes.APPLICATION_XLSX_VALUE)).withRel("exportPage").withType("GET"));
+        dto.add(linkTo(methodOn(PersonController.class)
+                .exportPage(1, 12, "asc", null)).withRel("exportPage").withType("GET").withTitle("Export Page"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class)).slash("massCreation").withRel("massCreation").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
