@@ -5,6 +5,9 @@ import br.com.ImportAndExportSpreadsheet.data.dto.PersonDTO;
 import br.com.ImportAndExportSpreadsheet.exception.BadRequestException;
 import br.com.ImportAndExportSpreadsheet.exception.RequiredObjectIsNullException;
 import br.com.ImportAndExportSpreadsheet.exception.ResourceNotFoundException;
+import br.com.ImportAndExportSpreadsheet.file.exporter.MediaTypes;
+import br.com.ImportAndExportSpreadsheet.file.exporter.contract.FileExporter;
+import br.com.ImportAndExportSpreadsheet.file.exporter.factory.FileExporterFactory;
 import br.com.ImportAndExportSpreadsheet.file.importer.contract.FileImporter;
 import br.com.ImportAndExportSpreadsheet.file.importer.factory.FileImporterFactory;
 import br.com.ImportAndExportSpreadsheet.model.Person;
@@ -14,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -38,8 +42,13 @@ public class PersonServices {
 
     @Autowired
     private PersonRepository repository;
+
     @Autowired
     private FileImporterFactory importer;
+
+    @Autowired
+    private FileExporterFactory exporter;
+
     @Autowired
     private PagedResourcesAssembler<PersonDTO> assembler;
 
@@ -64,6 +73,20 @@ public class PersonServices {
 
         var people = repository.findPeopleByName(firstName, pageable);
         return buildPagedModel(pageable, people);
+    }
+
+    public Resource exportPage(Pageable pageable, String acceptHeader) {
+        logger.info("Export a people page");
+
+        var people = repository.findAll(pageable).map((person) ->
+                parseObject(person, PersonDTO.class)).getContent();
+
+        try {
+            FileExporter exporter = this.exporter.getExporter(acceptHeader);
+            return exporter.exportFile(people);
+        } catch (Exception e) {
+            throw new RuntimeException("Error during file export", e);
+        }
     }
 
     public PersonDTO create(PersonDTO person) {
@@ -158,6 +181,7 @@ public class PersonServices {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12, "asc")).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findByName("", 1, 12, "asc")).withRel("findByName").withType("GET"));
+        dto.add(linkTo(methodOn(PersonController.class).exportPage(1, 12, "asc", MediaTypes.APPLICATION_XLSX_VALUE)).withRel("exportPage").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class)).slash("massCreation").withRel("massCreation").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
