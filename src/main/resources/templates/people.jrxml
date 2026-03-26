@@ -1,0 +1,119 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="people" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3115543e-4320-404a-a249-efd330d38b81">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cmVzdF93aXRoX3NwcmluZ19ib290X2VydWRpby5wZXJzb24gQVMgLDEwMiwxMjAsMGYyZDUxOTQt&#xa;YmM5YS00MTE1LWFiNmYtNTQ1NTA5NWEyMzc4Ow=="/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL Connection"/>
+	<style name="zebraStyle" mode="Opaque" forecolor="#121211">
+		<conditionalStyle mode="Opaque" forecolor="#121211" backcolor="#E0E0E0">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<query language="SQL"><![CDATA[SELECT 
+	id,
+	CONCAT(first_name, ' ', last_name) AS name,
+	address,
+	gender,
+	enabled
+FROM rest_with_spring_boot_erudio.person]]></query>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address"/>
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+	</field>
+	<field name="gender" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="gender"/>
+		<property name="com.jaspersoft.studio.field.label" value="gender"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+	</field>
+	<field name="enabled" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="enabled"/>
+		<property name="com.jaspersoft.studio.field.label" value="enabled"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="person"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="83" splitType="Stretch">
+		<element kind="staticText" uuid="07dd46cc-b916-4b22-bc65-3f359cd28aa8" x="30" y="0" width="550" height="69" fontSize="40.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[PEOPLE REPORT]]></text>
+		</element>
+		<element kind="image" uuid="7d525e2a-5631-46e7-95ad-410eb5cdc663" x="50" y="16" width="50" height="50">
+			<expression><![CDATA["data:image/png;base64,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"]]></expression>
+		</element>
+	</title>
+	<pageHeader height="45" splitType="Stretch">
+		<element kind="staticText" uuid="98833653-7b03-42c4-b9b3-8bdc09c02b72" x="0" y="7" width="554" height="30" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Spring Boot 2026 REST API's do 0 à AWS e GCP c Java e Docker
+]]></text>
+		</element>
+	</pageHeader>
+	<columnHeader height="30" splitType="Stretch">
+		<element kind="staticText" uuid="4fc69785-047a-4a4b-83b6-34255d55989d" mode="Opaque" x="0" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#235560" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Code]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a04a259-f061-4672-b182-3d7a4fff3eeb"/>
+		</element>
+		<element kind="staticText" uuid="4542aa96-f6db-460c-b991-9682ed24c1da" mode="Opaque" x="270" y="0" width="120" height="30" forecolor="#FFFFFF" backcolor="#235560" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Address]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c478e2fb-cab4-4798-9912-80c74ab2ce47"/>
+		</element>
+		<element kind="staticText" uuid="eb5849c1-738f-4070-afce-96a8c6ade1f3" mode="Opaque" x="70" y="0" width="200" height="30" forecolor="#FFFFFF" backcolor="#235560" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Name]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c844740-6ee8-4255-9f8c-53bdd912b1b5"/>
+		</element>
+		<element kind="staticText" uuid="2a9827f6-88b2-430b-9695-c01727c46e90" mode="Opaque" x="390" y="0" width="90" height="30" forecolor="#FFFFFF" backcolor="#235560" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Gender]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4ac2ffb-1e4e-4eff-945a-39627b04ad94"/>
+		</element>
+		<element kind="staticText" uuid="643c4276-d772-4cbc-9545-e2d21a3251bd" mode="Opaque" x="480" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#235560" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Enabled]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60bc0cf5-2c3f-4632-8a65-4f880a63c789"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<element kind="textField" uuid="6c6ca5e0-08f6-4021-8a51-a1f7d2cff9ac" x="0" y="0" width="70" height="30" hTextAlign="Center" vTextAlign="Middle" style="zebraStyle">
+				<expression><![CDATA[$F{id}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a04a259-f061-4672-b182-3d7a4fff3eeb"/>
+			</element>
+			<element kind="textField" uuid="c044658a-b4cb-4140-8fbd-b8eb50f6478f" x="270" y="0" width="120" height="30" hTextAlign="Left" vTextAlign="Middle" style="zebraStyle">
+				<expression><![CDATA[$F{address}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c478e2fb-cab4-4798-9912-80c74ab2ce47"/>
+			</element>
+			<element kind="textField" uuid="e6fade92-01c9-490f-8d7f-9ee75c74d6e4" x="70" y="0" width="200" height="30" hTextAlign="Left" vTextAlign="Middle" style="zebraStyle">
+				<expression><![CDATA[$F{name}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c844740-6ee8-4255-9f8c-53bdd912b1b5"/>
+			</element>
+			<element kind="textField" uuid="abb01cc2-9ace-4319-8e60-effe0fd3174c" x="390" y="0" width="90" height="30" hTextAlign="Center" vTextAlign="Middle" style="zebraStyle">
+				<expression><![CDATA[$F{gender}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4ac2ffb-1e4e-4eff-945a-39627b04ad94"/>
+			</element>
+			<element kind="textField" uuid="e77c4b19-c9c2-44d8-b883-5cf74572e516" x="480" y="0" width="70" height="30" hTextAlign="Center" vTextAlign="Middle" style="zebraStyle">
+				<expression><![CDATA[$F{enabled} ? "Yes" : "No"]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60bc0cf5-2c3f-4632-8a65-4f880a63c789"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="47" splitType="Stretch">
+		<element kind="staticText" uuid="acdfe8f0-eff9-41bd-99df-1cd35f6c59f7" x="0" y="0" width="554" height="30" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[© 2026 William Santana. Todos os direitos reservados.]]></text>
+		</element>
+	</columnFooter>
+	<pageFooter height="56" splitType="Stretch">
+		<element kind="textField" uuid="0dbe8bcd-6e97-49ea-a88d-cc7158af9ff5" x="370" y="0" width="100" height="30" hTextAlign="Right">
+			<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="c70d3ae0-6b49-4d45-9071-d9572327ddec" x="471" y="0" width="84" height="30" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" of " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="590c1893-3126-4397-b209-90362158e4fc" x="40" y="0" width="100" height="30" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.text.SimpleDateFormat("d MMMM yyyy", java.util.Locale.ENGLISH).format(new java.util.Date())]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
