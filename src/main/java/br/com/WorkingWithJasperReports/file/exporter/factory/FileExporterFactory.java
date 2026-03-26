@@ -4,6 +4,7 @@ import br.com.UploadEDownloadDeArquivos.exception.BadRequestException;
 import br.com.WorkingWithJasperReports.file.exporter.MediaTypes;
 import br.com.WorkingWithJasperReports.file.exporter.contract.FileExporter;
 import br.com.WorkingWithJasperReports.file.exporter.impl.CsvExporter;
+import br.com.WorkingWithJasperReports.file.exporter.impl.PdfExporter;
 import br.com.WorkingWithJasperReports.file.exporter.impl.XlsxExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ public class FileExporterFactory {
             return context.getBean(XlsxExporter.class);
         } else if (acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_CSV_VALUE)) {
             return context.getBean(CsvExporter.class);
+        } else if (acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_PDF_VALUE)) {
+          return context.getBean(PdfExporter.class);
         } else {
             throw new BadRequestException("Invalid file format!");
         }
