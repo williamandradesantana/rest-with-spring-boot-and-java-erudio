@@ -28,8 +28,9 @@ spring:
       max-request-size: 215MB
 logging:
   level:
-#    root: WARN
-    br.com.Swagger: DEBUG
+    net.sf.japerreports: DEBUG
+    com.jaspersoft: DEBUG
+    br.com.WorkingWithJasperReports: DEBUG
 
 spring-doc:
   paths-to-match: /api/**/v1/**
