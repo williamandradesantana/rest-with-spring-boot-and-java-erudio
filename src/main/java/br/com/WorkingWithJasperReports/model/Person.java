@@ -36,6 +36,12 @@ public class Person implements Serializable {
     @Column(name = "photo_url", length = 255)
     private String photoUrl;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "person_books",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
     private List<Book> books;
 
     public Person(){}
