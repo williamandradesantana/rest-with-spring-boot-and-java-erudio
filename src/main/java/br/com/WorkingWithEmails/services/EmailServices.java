@@ -1,6 +1,7 @@
 package br.com.WorkingWithEmails.services;
 
 import br.com.WorkingWithEmails.config.EmailConfig;
+import br.com.WorkingWithEmails.data.dto.request.EmailRequestDTO;
 import br.com.WorkingWithEmails.mail.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,11 @@ public class EmailServices {
     @Autowired
     private EmailConfig emailConfigs;
 
-    public void sendSimpleEmail(String to, String subject, String body) {
+    public void sendSimpleEmail(EmailRequestDTO emailRequest) {
         emailSender
-                .to(to)
-                .withSubject(subject)
-                .withMessage(body)
+                .to(emailRequest.getTo())
+                .withSubject(emailRequest.getSubject())
+                .withMessage(emailRequest.getBody())
                 .send(emailConfigs);
     }
 }
