@@ -13,17 +13,15 @@ public class TokenDTO implements Serializable {
     private Boolean authenticated;
     private Date created;
     private Date expiration;
-    private String password;
     private String accessToken;
     private String refreshToken;
 
     public TokenDTO(){}
-    public TokenDTO(String username, Boolean authenticated, Date created, Date expiration, String password, String accessToken, String refreshToken) {
+    public TokenDTO(String username, Boolean authenticated, Date created, Date expiration, String accessToken, String refreshToken) {
         this.username = username;
         this.authenticated = authenticated;
         this.created = created;
         this.expiration = expiration;
-        this.password = password;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
@@ -60,14 +58,6 @@ public class TokenDTO implements Serializable {
         this.expiration = expiration;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getAccessToken() {
         return accessToken;
     }
@@ -89,7 +79,7 @@ public class TokenDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         TokenDTO tokenDTO = (TokenDTO) o;
-        return Objects.equals(username, tokenDTO.username) && Objects.equals(authenticated, tokenDTO.authenticated) && Objects.equals(created, tokenDTO.created) && Objects.equals(expiration, tokenDTO.expiration) && Objects.equals(password, tokenDTO.password) && Objects.equals(accessToken, tokenDTO.accessToken) && Objects.equals(refreshToken, tokenDTO.refreshToken);
+        return Objects.equals(username, tokenDTO.username) && Objects.equals(authenticated, tokenDTO.authenticated) && Objects.equals(created, tokenDTO.created) && Objects.equals(expiration, tokenDTO.expiration) && Objects.equals(accessToken, tokenDTO.accessToken) && Objects.equals(refreshToken, tokenDTO.refreshToken);
     }
 
     @Override
@@ -98,7 +88,6 @@ public class TokenDTO implements Serializable {
         result = 31 * result + Objects.hashCode(authenticated);
         result = 31 * result + Objects.hashCode(created);
         result = 31 * result + Objects.hashCode(expiration);
-        result = 31 * result + Objects.hashCode(password);
         result = 31 * result + Objects.hashCode(accessToken);
         result = 31 * result + Objects.hashCode(refreshToken);
         return result;
