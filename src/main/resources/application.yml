@@ -55,6 +55,8 @@ logging:
     br.com.WorkingWithJasperReports: DEBUG
 
 spring-doc:
-  paths-to-match: /api/**/v1/**
+  paths-to-match:
+    - /api/**/v1/**
+    - /auth/**
   swagger-ui:
     user-root-path: true
